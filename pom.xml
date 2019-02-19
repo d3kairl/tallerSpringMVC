@@ -78,6 +78,7 @@
       <groupId>mysql</groupId>
       <artifactId>mysql-connector-java</artifactId>
       <scope>runtime</scope>
+      <version>8.0.13</version>
     </dependency>
 
     <!-- EhCache -->
@@ -184,7 +185,7 @@
       <plugin>
         <groupId>ro.isdc.wro4j</groupId>
         <artifactId>wro4j-maven-plugin</artifactId>
-        <version>${wro4j.version}</version>
+        <version>${wro4j.version}</version> 
         <executions>
           <execution>
             <phase>generate-resources</phase>

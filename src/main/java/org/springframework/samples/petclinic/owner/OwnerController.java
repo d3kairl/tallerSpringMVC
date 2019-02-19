@@ -41,14 +41,14 @@ import org.springframework.web.servlet.ModelAndView;
 class OwnerController {
 
     private static final String VIEWS_OWNER_CREATE_OR_UPDATE_FORM = "owners/createOrUpdateOwnerForm";
-    private final OwnerRepository owners;
+    //private final OwnerRepository owners;
     
     @Autowired
     private OwnerService ownerService;
 
     @Autowired
-    public OwnerController(OwnerRepository clinicService) {
-        this.owners = clinicService;
+    public OwnerController(OwnerService ownerService) {
+        this.ownerService = ownerService;
     }
 
     @InitBinder
@@ -68,7 +68,7 @@ class OwnerController {
         if (result.hasErrors()) {
             return VIEWS_OWNER_CREATE_OR_UPDATE_FORM;
         } else {
-            this.owners.save(owner);
+            this.ownerService.save(owner);
             return "redirect:/owners/" + owner.getId();
         }
     }
@@ -88,7 +88,7 @@ class OwnerController {
         }
 
         // find owners by last name
-        Collection<Owner> results = this.owners.findByLastName(owner.getLastName());
+        Collection<Owner> results = this.ownerService.findByLastName(owner.getLastName());
         if (results.isEmpty()) {
             // no owners found
             result.rejectValue("lastName", "notFound", "not found");
@@ -106,7 +106,7 @@ class OwnerController {
 
     @RequestMapping(value = "/owners/{ownerId}/edit", method = RequestMethod.GET)
     public String initUpdateOwnerForm(@PathVariable("ownerId") int ownerId, Model model) {
-        Owner owner = this.owners.findById(ownerId);
+        Owner owner = this.ownerService.findById(ownerId);
         model.addAttribute(owner);
         return VIEWS_OWNER_CREATE_OR_UPDATE_FORM;
     }
@@ -117,7 +117,7 @@ class OwnerController {
             return VIEWS_OWNER_CREATE_OR_UPDATE_FORM;
         } else {
             owner.setId(ownerId);
-            this.owners.save(owner);
+            this.ownerService.save(owner);
             return "redirect:/owners/{ownerId}";
         }
     }
